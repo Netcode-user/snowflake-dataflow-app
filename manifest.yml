@@ -1,0 +1,32 @@
+manifest_version: 1
+
+version:
+  name: "1.0.0"
+  label: "DataFlow Pro v1.0"
+  comment: "Native Snowflake App for Common Data Operations"
+
+artifacts:
+  setup_script: setup.sql
+  readme: README.md
+
+configuration:
+  log_level: INFO
+  trace_level: ALWAYS
+
+references:
+  - consumer_database:
+      label: "Target Database"
+      description: "Database where data operations will be performed"
+      privileges:
+        - CREATE SCHEMA
+        - USAGE
+      object_type: DATABASE
+      multi_valued: false
+      register_callback: config.register_single_callback
+
+streamlit:
+  name: dataflow_ui
+  main_file: app/ui/streamlit_app.py
+  title: "DataFlow Pro - Data Operations Hub"
+  query_warehouse: COMPUTE_WH
+  pages_dir: app/ui/pages
